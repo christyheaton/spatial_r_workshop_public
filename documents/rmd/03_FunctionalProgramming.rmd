@@ -15,17 +15,14 @@ knitr::opts_chunk$set(collapse = F)
 
 ```
 
-## Functions in R
+# Functions in R
 
 * Functions in are treated just like any other data.
-
 * They are assigned to variables just like any other object. 
-
 * They can be passed to other functions as arguments and returned by other functions as output.
-
 * They can also be anonymous, meaning they can be passed as an argument with out being assigned to a variable.
 
-## for loops
+# `for` loops
 
 You are probably used to `for` loops:
 
@@ -38,16 +35,16 @@ for(i in 1:length(myData)){
 myData
 
 ```
-## Functional Programming Basics in R
+# Functional Programming Basics in R
 
 Alternatives to for loops when working with R objects.
 
 * Vectorized Operations
 * Functionals (High Order Functions)
 
-These abstract away the looping construct and often pass those instruction's to highly optimized code that does the looping for the user. 
+These abstract away the looping construct and pass those instruction's to often highly optimized code that does the looping for the user.
 
-## R objects are immutable (usually)
+# R objects are immutable (usually)
 
 > Internally, `x$a <- 2` is a combination of two steps: first construct a modified copy of `x`, then change the binding of `x` to the new object; the bindings change, but the original `x` does not. This makes R objects immutable: whenever it looks like you are modifying an object, you are actually creating a modified copy.
 
@@ -57,7 +54,7 @@ This means that objects in R can't usually be changed in place. For large object
 
 This is not true for all R objects but its a good rule of thumb to go by unless you know otherwise.
 
-## Vectorized Operations
+# Vectorized Operations
 
 Vectorized operations simplify common looping tasks, and they are found everywhere in R.
 
@@ -81,7 +78,7 @@ myData <- myData + 1
 
 ```
 
-## Vector rule of recycling
+# Vector rule of recycling
 
 Vectors of short lengths are recycled. Warnings are thrown when the shorter vector is not a factor of the larger.
 
@@ -96,7 +93,7 @@ b <- 1:3
 a * b
 
 ```
-## Functionals
+# Functionals
 
 A function that takes an object and applys a function to each element of that object. 
 
@@ -109,7 +106,7 @@ In R these are commonly the *apply family of functions.
 * sapply - returns a vector, if possible
 * mapply - multivariable lapply
 
-## Example
+# Example
 
 * Assembles a vector of randomly uniform values,
 * define a function that will check a value,
@@ -133,7 +130,7 @@ print(head(newx, 10))
 
 ```
 
-## A vectorized approach with `ifelse`
+# A vectorized approach with `ifelse`
 
 You could also use the `ifelse` function as well. 
 
@@ -147,7 +144,7 @@ xnew <- ifelse(x > 50, x - 50, x)
 
 ```
 
-## Benchmarking the different approaches
+# Benchmarking the different approaches
 
 We will compare the performance of these 3 approaches on a single vector and a column in a data frame.
 
@@ -161,7 +158,7 @@ dat <- data.frame(col1 = vec)
 
 ```
 
-## `for` loops 
+# `for` loops 
 
 ```{r}
 
@@ -185,7 +182,7 @@ forD <- function(dat){
 
 ```
 
-## `sapply`
+# `sapply`
 
 ```{r}
 ckFun <- function(x){
@@ -205,7 +202,7 @@ funD <- function(dat){
 }
 ```
 
-## `ifelse`
+# `ifelse`
 
 ```{r}
 ifeV <- function(vec){
@@ -220,7 +217,7 @@ ifeD <- function(dat){
 }
 ```
 
-## Benchmark Results
+# Benchmark Results
 
 ```{r, echo = F}
 
@@ -236,11 +233,11 @@ boxplot(res)
 
 ```
 
-## More about apply functions
+# More about apply functions
 
 `lapply`, `sapply`, and `mapply` are most common.
 
-## `lapply`
+# `lapply`
 
 `lapply` take a list or a vector as an input, applys a function to each element of the list, then returns a list.
 
@@ -255,7 +252,7 @@ lapply(myList, is.numeric)
 
 ``` 
 
-## `lapply`
+# `lapply`
 
 Here, we use an anonymous function that checks if the element is numeric and if so sums the element, else it returns the element.
 
@@ -265,7 +262,7 @@ lapply(myList, function(x) if(is.numeric(x)) sum(x) else x)
 
 ``` 
 
-## `lapply`
+# `lapply`
 
 We can use lapply to subset list elements too.
 
@@ -275,7 +272,7 @@ lapply(myList, '[', 1)
 
 ``` 
 
-## `sapply`
+# `sapply`
 
 `sapply` simplifies the output of lapply. It'll return a vector instead of a list when it can.
 
@@ -286,7 +283,7 @@ class(sapply(myList, '[', 1))
 
 ```
 
-## `sapply`
+# `sapply`
 
 ```{r}
 
@@ -295,7 +292,7 @@ class(sapply(myList, '[', 1:3))
 
 ```
 
-## `mapply`
+# `mapply`
 
 `mapply` is multi-variable apply. It can take functions with 2+ inputs and map variables to those inputs.
 
@@ -307,7 +304,7 @@ print(head(slots))
 
 ```
 
-## `mapply`
+# `mapply`
 
 ```{r}
 
