@@ -16,7 +16,8 @@
 					   "tidyverse",
 					   "akima",
 					   "rmarkdown",
+					   "mapview",
+                       "RColorBrewer",
 					   "knitr",
-					   "leaflet",
 					   "xlsx"),
 					 dependencies = T)
