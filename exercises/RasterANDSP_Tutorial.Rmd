@@ -100,6 +100,7 @@ $NDVI = \frac{NIR - Red}{NIR + Red}$
 Note: This will take some time, so be patient. 
 ```{r Make_NDVI}
 NDVI <- (sea$Seattle_NAIP.4 - sea$Seattle_NAIP.1)/(sea$Seattle_NAIP.4 + sea$Seattle_NAIP.1)
+plot(NDVI)
 ```
 
 ### Get the NDVI for each of our Trees!
