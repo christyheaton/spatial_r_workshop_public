@@ -3,12 +3,12 @@ title: 'NYC Street Trees Analysis'
 ---
 
 ```{r setup, echo = FALSE}
+
 set.seed(1)
-knitr::opts_knit$set(root.dir = '..', output.dir = './reports')
 
 ```
 
-This exercise will look use a tree survey from 2015 in New York City and try to assess if there are any trends for certian parks in the city concerning trees.
+This exercise will look use a street tree survey from 2015 in New York City.
 
 First let's load the libraries we will need. We will use `sf`, `mapview`, and `ggplot2`.
 
@@ -31,9 +31,9 @@ For this excercize, the tabular data contains the coordinates and metadata for t
 ```{r}
 
 ## read in parcel data
-treeSurvey <- readRDS("./exercises/data/2015_Street_Tree_Census_-_Tree_Data.rds")
+treeSurvey <- readRDS("./data/2015_Street_Tree_Census_-_Tree_Data.rds")
 ## read in borough polygons
-boroBounds <-read_sf("./exercises/data/BoroughBoundaries/BoroughBoundaries.shp")
+boroBounds <- read_sf("./data/BoroughBoundaries/BoroughBoundaries.shp")
 
 ```
 
@@ -66,7 +66,6 @@ Now that we have our data in R and we have previewed it, we will convert the tab
 
 ```{r}
 
-
 ## convert tabular data to spatial data type
 tcSf <- st_as_sf(treeSurvey, coords = c("longitude", "latitude"), crs = 4326)
 
@@ -76,7 +75,7 @@ tcSf <- st_as_sf(treeSurvey, coords = c("longitude", "latitude"), crs = 4326)
 
 ```{r}
 
-samp <- tcS[sample(seq(nrow(tcSf)), 5000),]
+samp <- tcSf[sample(seq(nrow(tcSf)), 5000),]
 mapView(list(samp))
 
 ```
@@ -95,6 +94,8 @@ The above slippy map shows where are the widest street trees in NYC.
 
 Which boroughs have the most street trees in the top 99th quantile? To do that we will use an intersection function from `sf` called `st_interection`. `st_interection` will return the index from the second input that intesects the feature of the first input. We use that index to get the borough name from the second feature's attributes
 
+These tree data already have a borough associated with each record, but we will do an intersection with a sf polygon anyway.
+
 ```{r}
 
 boroBounds <- st_transform(boroBounds, st_crs(dbh100))
@@ -102,27 +103,31 @@ dbh100$boro_name <- boroBounds$boro_name[as.numeric(st_intersects(dbh100, boroBo
 
 ```
 
-Now that we know which borough the widest street trees are associated with we can plot the abundance of the widest trees in each borough.
+Remove trees that didn't fall in a given borough.
 
 ```{r}
 
-ggplot(data = dbh100) +
-    geom_bar(aes(boro_name)) +
-    xlab("Borough") + 
-    ylab("Count of trees > 50 dbh")
+dbh100 <- dbh100[!is.na(dbh100$boro_name),]
 
 ```
 
-We can now normalize the count by burough area.
+QC the intesection...
 
-First, we should transform our boroughs spatial class to projected coordinates, then calculate the area of each borough.
+```{r}
+
+plot(dbh100["boro_name"])
+
+```
+
+Now that we know which borough the widest street trees are associated with, we can plot the abundance of the widest trees in each borough.
 
 ```{r}
 
 ggplot(data = dbh100) +
-    geom_bar(aes(boro_name)) +
+    geom_bar(aes(boro_name, fill = boro_name)) +
     xlab("Borough") + 
-    ylab("Count of trees > 50 dbh")
+    ylab("Count of trees > 50 dbh") +
+    theme_bw()
 
 ```
 
