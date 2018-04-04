@@ -3,7 +3,7 @@ title: 'NYC Street Trees Analysis'
 ---
 
 ```{r setup, echo = FALSE}
-
+set.seed(1)
 knitr::opts_knit$set(root.dir = '..', output.dir = './reports')
 
 ```

@@ -8,6 +8,12 @@ output:
     fonttheme: "professionalfonts"
 ---
 
+```{r, echo = F}
+
+set.seed(1)
+
+```
+
 # You, Me, and NSE
 
 Non-standard evaluation is bananas!
