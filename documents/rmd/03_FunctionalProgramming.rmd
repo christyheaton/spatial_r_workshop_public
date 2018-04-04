@@ -322,6 +322,18 @@ length(which(runSlots == "7 7 7"))
 
 ```
 
+# `parallel`
+
+Now that you are thinking functionally, imagine this:
+
+A list of elements.
+
+A single funciton.
+
+Assign a portion of those element to each core and apply the function to those grouped elements.
+
+Re-assemble those elements once they are complete.
+
 ```{r, echo = F}
 
 ## Resources

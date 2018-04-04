@@ -7,3 +7,25 @@ output:
     colortheme: "rose"
     fonttheme: "professionalfonts"
 ---
+
+# R Is Domain Specific
+
+[Stack Overflow Popular Languages](https://insights.stackoverflow.com/survey/2017#technology-programming-languages)
+
+# R Grows Daily!
+
+[CRAN By Date](https://cran.r-project.org/web/packages/available_packages_by_date.html)
+
+# 3+ Tabular Data Stucture
+
+`data.frame`
+
+`data.table`
+
+`tibbles`
+
+# Very Rubust Stats Libraries
+
+# A Highly Interactive IDE in R Studio
+
+# Reproducable Research 
