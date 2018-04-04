@@ -19,7 +19,7 @@ Really fast plotting with ggplot2.
 ```{r}
 
 library(ggplot2)
-dat <- data.frame(let <- sample(letters[c(1:5,1:3,1:2)], 100, replace = T))
+dat <- data.frame(let = sample(letters[c(1:5,1:3,1:2)], 100, replace = T))
 
 ```
 
@@ -32,13 +32,19 @@ ggplot(dat) +
 
 ```
 
-# Tidverse
+# tidverse
 
 Write data processing using verb like syntax, chaining together a pipeline of data processing routines.
 
 ```{r}
 
 library(tidyverse)
+tib <- tibble(x = runif(10000, 1, 100),
+              y = runif(10000, 1, 100),
+              let=sample(letters[c(1:5,1:3)], 10000, replace = T))
+tib %>%
+    filter(let %in% c("a", "b", "c")) %>%
+    mutate(prod = x*y) -> tib2
 
 ```
 
@@ -49,5 +55,29 @@ Super fast tabular data manipulation with a very succinct syntax.
 ```{r}
 
 library(data.table)
+dt <- data.table(x = runif(10000, 1, 100),
+                 y = runif(10000, 1, 100),
+                 let=sample(letters[c(1:5,1:3)], 10000, replace = T))
+
+```
+
+# data.table
+
+Group by using the `by` argument.
+
+```{r}
+
+dt[, .N, by = let]
+
+```
+
+# data.table
+
+Assignment by reference.
+
+```{r}
+
+dt[, prod:=x*y]
+dt
 
 ```

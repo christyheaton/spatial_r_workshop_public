@@ -18,14 +18,17 @@ output:
 
 # 3+ Tabular Data Stucture
 
-`data.frame`
+* `data.frame` - Base R's tabular data stucture.
+* `data.table` - High performance with succinct syntax.
+* `tibble` - Simular to DF, but with better console printing.
 
-`data.table`
+# A Highly Interactive IDE - R Studio
 
-`tibbles`
+[R Studio](https://www.rstudio.com/)
 
-# Very Rubust Stats Libraries
+# Reproducable Research / Literate Programming
 
-# A Highly Interactive IDE in R Studio
-
-# Reproducable Research 
+* Rmarkdown
+* Blogdown
+* Bookdown
+* Sweave
