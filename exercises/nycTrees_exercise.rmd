@@ -1,0 +1,127 @@
+---
+title: 'NYC Street Trees Analysis'
+---
+
+```{r setup, echo = FALSE}
+
+knitr::opts_knit$set(root.dir = '..', output.dir = './reports')
+
+```
+
+This exercise will look use a tree survey from 2015 in New York City and try to assess if there are any trends for certian parks in the city concerning trees.
+
+First let's load the libraries we will need. We will use `sf`, `mapview`, and `ggplot2`.
+
+```{r}
+
+library(sf)
+library(mapview)
+library(ggplot2)
+
+```
+
+Let's read in some data. This data was pulled from the Open Data NYC website. 
+
+We will read in our tabular data from an rds file.
+
+We will use `read_sf `to read in our shapefiles.
+
+For this excercize, the tabular data contains the coordinates and metadata for the NYC street tree survey, and the spatial data will be the NYC boroughs boundaries.
+
+```{r}
+
+## read in parcel data
+treeSurvey <- readRDS("./exercises/data/2015_Street_Tree_Census_-_Tree_Data.rds")
+## read in borough polygons
+boroBounds <-read_sf("./exercises/data/BoroughBoundaries/BoroughBoundaries.shp")
+
+```
+
+It's easy to preview the data printing various facets to the terminal.
+
+* `names`: View all the column names of the table.
+* `nrow `: Get a total of the rows.
+* `str  `: View the column data types.
+
+```{r}
+
+names(treeSurvey)
+nrow(treeSurvey)
+str(treeSurvey)
+
+```
+
+We can check if the longitude and latitude fields have NA values or if the values in that field are in the expected range (not mixing northings and eastings).
+
+```{r}
+
+summary(treeSurvey$longitude)
+summary(treeSurvey$latitude)
+
+```
+
+We see that there are no NA values in the dataset and the coordinates are appropriate for New York City.
+
+Now that we have our data in R and we have previewed it, we will convert the tabular data containing the tree survey to a spatial points data type. This is done using the `st_as_sf` function. We will set the arguments for the coordinates and the coordinate reference. We will assume the coordinate refernce system is in WGS 84.
+
+```{r}
+
+## convert tabular data to spatial data type
+tcSf <- st_as_sf(treeSurvey, coords = c("longitude", "latitude"), crs = 4326)
+
+```
+
+`nrow` indicated to us that the `treeSurvey` file has almost 700,000 records. Let's plot a sample (5,000) of them using mapView.
+
+```{r}
+
+samp <- tcS[sample(seq(nrow(tcSf)), 5000),]
+mapView(list(samp))
+
+```
+
+So, the points are plotting in New York and we can get an extent of the data. Now we will group the tree's by DBH (diameter at breast height) into 100 quantiles and subet the data for the widest group (top 1%) and plot those.
+
+```{r}
+
+dbh100 <- quantile(tcSf$tree_dbh, probs=seq(0, 1, 0.01))[100]
+dbh100 <- tcSf[tcSf$tree_dbh >= dbh100,]
+mapView(dbh100)
+
+```
+
+The above slippy map shows where are the widest street trees in NYC. 
+
+Which boroughs have the most street trees in the top 99th quantile? To do that we will use an intersection function from `sf` called `st_interection`. `st_interection` will return the index from the second input that intesects the feature of the first input. We use that index to get the borough name from the second feature's attributes
+
+```{r}
+
+boroBounds <- st_transform(boroBounds, st_crs(dbh100))
+dbh100$boro_name <- boroBounds$boro_name[as.numeric(st_intersects(dbh100, boroBounds))]
+
+```
+
+Now that we know which borough the widest street trees are associated with we can plot the abundance of the widest trees in each borough.
+
+```{r}
+
+ggplot(data = dbh100) +
+    geom_bar(aes(boro_name)) +
+    xlab("Borough") + 
+    ylab("Count of trees > 50 dbh")
+
+```
+
+We can now normalize the count by burough area.
+
+First, we should transform our boroughs spatial class to projected coordinates, then calculate the area of each borough.
+
+```{r}
+
+ggplot(data = dbh100) +
+    geom_bar(aes(boro_name)) +
+    xlab("Borough") + 
+    ylab("Count of trees > 50 dbh")
+
+```
+
