@@ -8,16 +8,16 @@
 
 ## You can now run the following in an R terminal:
 	
-	install.packages(c("sf",
-					   "sp",
-					   "rdgal",
-					   "raster",
-					   "data.table",
-					   "tidyverse",
-					   "akima",
-					   "rmarkdown",
-					   "mapview",
+    install.packages(c("sf",
+                       "sp",
+                       "rdgal",
+                       "raster",
+                       "data.table",
+                       "tidyverse",
+                       "akima",
+                       "rmarkdown",
+                       "mapview",
                        "RColorBrewer",
-					   "knitr",
-					   "xlsx"),
-					 dependencies = T)
+                       "knitr",
+                       "xlsx"),
+                     dependencies = T)
