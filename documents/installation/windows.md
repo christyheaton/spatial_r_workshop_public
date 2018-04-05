@@ -4,7 +4,7 @@
 	
     install.packages(c("sf",
                        "sp",
-                       "rdgal",
+                       "rgdal",
                        "raster",
                        "data.table",
                        "tidyverse",
