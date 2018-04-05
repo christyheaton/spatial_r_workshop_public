@@ -30,7 +30,6 @@ nseFun <- function(fruit){
 
 ```
 
-
 ```{r}
 
 nseFun(oranges)
@@ -46,8 +45,9 @@ Really fast plotting with ggplot2.
 
 library(ggplot2)
 dat <- data.frame(let = sample(letters[c(1:5,1:3,1:2)],
-                               100,
-                               replace = T))
+                               100, replace = T),
+                  frm = sample(c("This", "That", "Other"),
+                               1000, replace = T))
 
 ```
 
@@ -56,15 +56,17 @@ dat <- data.frame(let = sample(letters[c(1:5,1:3,1:2)],
 ```{r}
 
 ggplot(dat) +
-    geom_bar(aes(x = let, fill = let), stat="count")
+    geom_bar(aes(x = let, fill = let), stat="count") +
+    facet_wrap(~frm) +
+    theme_bw()
 
 ```
 
 # tidyverse
 
-A whole suite of data procesing packages that allow for very readable, easy to write code. 
+A whole suite of data procesing packages that allow for very readable, easy to write code.
 
-Very easy for beginners to learn.
+Includes ggplot2. Very easy and intuative for beginners.
 
 Write data processing using verb like syntax, chaining together a pipeline of data processing routines.
 
